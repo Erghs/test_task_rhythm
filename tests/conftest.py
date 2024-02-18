@@ -1,17 +1,18 @@
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
-BROWSERS = {
-    'firefox': webdriver.Firefox,
-    'chrome': webdriver.Chrome,
-}
 
 
 # инициализация WebDriver, будет выполняться 1 раз за тестовую сессию
-
-@pytest.fixture(scope="session")
-def browser():
-    for browser in BROWSERS:
-        driver = browser
-        yield driver
-        driver.quit()
+#Содержит параметры Firefox, chrome для прогода тестов на этих двух браузерах по-очереди
+@pytest.fixture(params=["firefox", "chrome"], scope="session")
+def browser(request):
+    options = Options()
+    options.page_load_strategy = 'eager'
+    if request.param == "firefox":
+        driver = webdriver.Firefox()
+    if request.param == "chrome":
+        driver = webdriver.Chrome(options=options)
+    yield driver
+    driver.quit()

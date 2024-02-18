@@ -1,23 +1,51 @@
 import os
 
-from selenium.webdriver.remote.webelement import WebElement
+
+from selenium.webdriver.common.by import By
+
+from test_task_rhythm.pages.BasePage import BasePage
 
 
-class FirstCasePage():
+class DemoQASearchLocators:
+    #Класс для хранения локаторов
 
-    def __init__(self, web_driver, url=''):
-        if not url:
-            url = os.getenv("MAIN_URL") or 'https://demoqa.com/'
+    elements_card = (By.CSS_SELECTOR, 'div.card:nth-child(1) > div:nth-child(1) > div:nth-child(1)')
 
-        self._web_driver = web_driver
-        self.get(url)
+    checkbox = (By.CSS_SELECTOR, '.show > ul:nth-child(1) > li:nth-child(2)')
 
-    elements_btn = WebElement(id='app')
+    home_toggle = (By.XPATH, '//*[@id="tree-node"]/ol/li/span/button')
 
-    chexbox = WebElement(xpath='//*[@id="item-1"]')
+    downloads_toggle = (By.XPATH, '//*[@id="tree-node"]/ol/li/ol/li[3]/span/button')
 
-    home_toggle = WebElement(xpath='//*[@id="tree-node"]/ol/li/span/button/svg/path')
+    rct_checkbox =(By.XPATH, '//*[@id="tree-node"]/ol/li/ol/li[3]/ol/li[1]/span/label/span[1]')
 
-    downloads_toogle = WebElement(xpath='//*[@id="tree-node"]/ol/li/ol/li[3]/span/button/svg/path')
+    display_result_text = (By.XPATH, '//*[@id="result"]')
 
-    rct_checkbox = WebElement(xpath='//*[@id="tree-node"]/ol/li/ol/li[3]/ol/li[1]/span/label/span[1]')
+
+class DemoQA(BasePage):
+
+    #Унаследован от BasePage
+    # содержит вспомогательные медоды для взаимодействия с локаторами
+
+    def click_on_the_elements_card(self):
+        return self.find_element(DemoQASearchLocators.elements_card, time=2).click()
+
+    def click_on_the_checkbox(self):
+        return self.find_element(DemoQASearchLocators.checkbox, time=2).click()
+
+    def click_on_the_home_toggle(self):
+        return self.find_element(DemoQASearchLocators.home_toggle, time=2).click()
+
+    def click_on_the_downloads_toggle(self):
+        return self.find_element(DemoQASearchLocators.downloads_toggle, time=2).click()
+
+    def click_on_the_rct_checkbox(self):
+        return self.find_element(DemoQASearchLocators.rct_checkbox, time=2).click()
+
+    def get_text_on_the_display_result_text(self):
+        return self.get_text(DemoQASearchLocators.display_result_text)
+
+
+
+
+
